@@ -1,0 +1,4 @@
+apt update
+apt ugrade
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+apt install cargo
