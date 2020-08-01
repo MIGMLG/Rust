@@ -1,2 +1,0 @@
-https://www.forrestthewoods.com/blog/how-to-debug-rust-with-visual-studio-code/
-https://github.com/vadimcn/vscode-lldb/blob/master/MANUAL.md#remote-debugging
