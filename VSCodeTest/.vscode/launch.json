@@ -10,9 +10,7 @@
             "name": "Debug",
             "program": "${workspaceRoot}/target/debug/hello-world",
             "args": [],
-            "cwd": "${workspaceRoot}",
-            "sourceLanguages": ["rust"],
-            "terminal": "integrated"
+            "cwd": "${workspaceRoot}"
         }
     ]
 }
