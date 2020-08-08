@@ -1,8 +1,13 @@
 use std::io::{stdin, stdout, Write};
+use crossterm::{execute, ExecutableCommand, terminal::{Clear, ClearType}};
 
 //Function to clean the terminal screen
 pub fn clear_screen() {
-    print!("{esc}[2J{esc}[1;1H", esc = 27 as char);
+    if cfg!(windows) {
+        execute!(stdout(), Clear(ClearType::All));
+    } else {
+        print!("{esc}[2J{esc}[1;1H", esc = 27 as char);
+    }
 }
 
 //Function to read the input
