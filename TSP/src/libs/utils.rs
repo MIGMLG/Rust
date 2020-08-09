@@ -1,5 +1,8 @@
+use crossterm::{
+    execute,
+    terminal::{Clear, ClearType},
+};
 use std::io::{stdin, stdout, Write};
-use crossterm::{execute, ExecutableCommand, terminal::{Clear, ClearType}};
 
 //Function to clean the terminal screen
 pub fn clear_screen() {
