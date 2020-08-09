@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 use crossterm::{
     execute,
     terminal::{Clear, ClearType},
