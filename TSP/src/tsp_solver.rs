@@ -30,7 +30,7 @@ pub fn execute(numero_max_cidades: &u8, matriz_distancias: &Vec<Vec<u16>>) {
         rota_swap[x] = x as u8;
     }
 
-    rota_menor[*numero_max_cidades as usize] = cidade_inicial as u8 ;
+    rota_menor[*numero_max_cidades as usize] = cidade_inicial as u8;
     rota_swap[*numero_max_cidades as usize] = cidade_inicial as u8;
 
     for i in (1..(cidade_inicial + 1)).rev() {
