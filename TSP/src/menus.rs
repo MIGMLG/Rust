@@ -1,13 +1,14 @@
 #![allow(while_true)]
 #![allow(unused_must_use)]
+#![allow(dead_code)]
 
 const LIMITE_CIDADES: u8 = 15;
 const DISTANCIA_MAX_RANDOM: u16 = 100;
 
-#[path = "libs/utils.rs"]
-mod utils;
 #[path = "tsp_solver.rs"]
 mod tsp_solver;
+#[path = "libs/utils.rs"]
+mod utils;
 use rand::Rng;
 
 //Main Menu
@@ -21,7 +22,22 @@ pub fn execute() {
         print!("Escolha uma opcao valida: ");
         let input = utils::read_input();
         match input.as_str() {
-            "1" => ask_number_of_cities(),
+            "1" => {
+                let numero_max_cidades: u8 = ask_number_of_cities();
+                println!("Número de Cidades: {}", numero_max_cidades);
+                let option: u8 = ask_distance_options();
+                match option {
+                    1 => {
+                        let matriz_distancias = distance_defined_by_user(&numero_max_cidades);
+                        tsp_solver::execute(&numero_max_cidades, &matriz_distancias);
+                    }
+                    2 => {
+                        let matriz_distancias = distance_defined_by_computer(&numero_max_cidades);
+                        tsp_solver::execute(&numero_max_cidades, &matriz_distancias);
+                    }
+                    _ => {}
+                }
+            }
             "2" => break,
             _ => println!("Opção Inválida!"),
         }
@@ -32,7 +48,7 @@ pub fn execute() {
 }
 
 //Menu to ask the number of cities to present to the problem
-fn ask_number_of_cities() {
+fn ask_number_of_cities() -> u8 {
     utils::clear_screen();
     let mut numero_max_cidades: u8 = 0;
     while true {
@@ -53,12 +69,14 @@ fn ask_number_of_cities() {
         }
         break;
     }
-    ask_distance_options(&numero_max_cidades);
+
+    numero_max_cidades //return do número de cidades
 }
 
 //Menu to ask how should the distance be defined
-fn ask_distance_options(numero_max_cidades: &u8) {
+fn ask_distance_options() -> u8 {
     utils::clear_screen();
+    let mut return_value: u8 = 0;
     while true {
         println!("1- Distáncias introduzidas pelo utilizador");
         println!("2- Distáncias generadas aleatoriamente");
@@ -66,24 +84,25 @@ fn ask_distance_options(numero_max_cidades: &u8) {
         let input = utils::read_input();
         match input.as_str() {
             "1" => {
-                distance_defined_by_user(&numero_max_cidades);
+                return_value = 1;
                 break;
             }
             "2" => {
-                distance_defined_by_computer(&numero_max_cidades);
+                return_value = 2;
                 break;
             }
             _ => println!("Opção Inválida!"),
         }
     }
+    return_value
 }
 
-fn distance_defined_by_user(numero_max_cidades: &u8) {
+fn distance_defined_by_user(numero_max_cidades: &u8) -> Vec<Vec<u16>> {
     utils::clear_screen();
     let size = *numero_max_cidades as usize;
     let mut matriz_distancias = vec![vec![0u16; size]; size];
 
-    let mut h : usize = 0;
+    let mut h: usize = 0;
     for x in 0..size {
         for y in h..size {
             if x == y {
@@ -105,22 +124,26 @@ fn distance_defined_by_user(numero_max_cidades: &u8) {
     for element in matriz_distancias.iter_mut() {
         println!("{:?}", element);
     }
-    tsp_solver::execute(&numero_max_cidades, &matriz_distancias);
+
+    println!("------------------------------------------------------------------------");
+
+    matriz_distancias
+    //tsp_solver::execute(&numero_max_cidades, &matriz_distancias);
 }
 
-fn distance_defined_by_computer(numero_max_cidades: &u8) {
+fn distance_defined_by_computer(numero_max_cidades: &u8) -> Vec<Vec<u16>> {
     utils::clear_screen();
     let mut rng = rand::thread_rng();
     let size = *numero_max_cidades as usize;
     let mut matriz_distancias = vec![vec![0u16; size]; size];
 
-    let mut h : usize = 0;
+    let mut h: usize = 0;
     for x in 0..size {
         for y in h..size {
             if x == y {
                 continue;
             }
-            let input : u16 = rng.gen_range(1, DISTANCIA_MAX_RANDOM);
+            let input: u16 = rng.gen_range(1, DISTANCIA_MAX_RANDOM);
             matriz_distancias[x][y] = input;
             matriz_distancias[y][x] = input;
         }
@@ -133,5 +156,6 @@ fn distance_defined_by_computer(numero_max_cidades: &u8) {
     }
     println!("------------------------------------------------------------------------");
 
-    tsp_solver::execute(&numero_max_cidades, &matriz_distancias);
+    matriz_distancias
+    //tsp_solver::execute(&numero_max_cidades, &matriz_distancias);
 }
