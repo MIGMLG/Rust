@@ -25,7 +25,7 @@ pub fn execute() {
             "2" => break,
             _ => println!("Opção Inválida!"),
         }
-        /// clear_screen();
+        //clear_screen();
     }
     utils::clear_screen();
     println!("Goodbye!");
@@ -38,7 +38,7 @@ fn ask_number_of_cities() {
     while true {
         print!("Introduza o numeros de Cidades pretendidas: ");
 
-        /// Error Handling
+        // Error Handling
         numero_max_cidades = match utils::read_input().parse::<u8>() {
             Ok(i) => i,
             Err(_e) => 0,
