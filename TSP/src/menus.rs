@@ -10,7 +10,7 @@ mod utils;
 mod tsp_solver;
 use rand::Rng;
 
-//Main Menu
+/// Main Menu
 pub fn execute() {
     utils::clear_screen();
     println!("Trabalho realizado por Miguel Costa!");
@@ -25,20 +25,20 @@ pub fn execute() {
             "2" => break,
             _ => println!("Opção Inválida!"),
         }
-        //clear_screen();
+        /// clear_screen();
     }
     utils::clear_screen();
     println!("Goodbye!");
 }
 
-//Menu to ask the number of cities to present to the problem
+/// Menu to ask the number of cities to present to the problem
 fn ask_number_of_cities() {
     utils::clear_screen();
     let mut numero_max_cidades: u8 = 0;
     while true {
         print!("Introduza o numeros de Cidades pretendidas: ");
 
-        //Error Handling
+        /// Error Handling
         numero_max_cidades = match utils::read_input().parse::<u8>() {
             Ok(i) => i,
             Err(_e) => 0,
@@ -56,7 +56,7 @@ fn ask_number_of_cities() {
     ask_distance_options(&numero_max_cidades);
 }
 
-//Menu to ask how should the distance be defined
+/// Menu to ask how should the distance be defined
 fn ask_distance_options(numero_max_cidades: &u8) {
     utils::clear_screen();
     while true {
