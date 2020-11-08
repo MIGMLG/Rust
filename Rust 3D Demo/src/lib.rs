@@ -8,6 +8,7 @@ extern crate lazy_static;
 
 mod app_state;
 mod common_funcs;
+mod constants;
 mod gl_setup;
 mod programs;
 mod shaders;
@@ -27,8 +28,9 @@ pub fn say_hello_from_rust(){
 #[wasm_bindgen]
 pub struct MigsClient {
     gl: WebGlRenderingContext,
-    program_color_2d: programs::Color2D,
-    program_color_2d_gradient: programs::Color2DGradient,
+    /* program_color_2d: programs::Color2D,
+    program_color_2d_gradient: programs::Color2DGradient, */
+    program_graph_3d : programs::Graph3D,
 }
 
 #[wasm_bindgen]
@@ -39,8 +41,9 @@ impl MigsClient {
         let gl = gl_setup::intialize_webgl_context().unwrap();
 
         Self {
-            program_color_2d: programs::Color2D::new(&gl),
-            program_color_2d_gradient: programs::Color2DGradient::new(&gl),
+            /* program_color_2d: programs::Color2D::new(&gl),
+            program_color_2d_gradient: programs::Color2DGradient::new(&gl), */
+            program_graph_3d: programs::Graph3D::new(&gl),
             gl: gl,
         }
     }
@@ -55,7 +58,7 @@ impl MigsClient {
 
         let curr_state = app_state::get_curr_state();
 
-        self.program_color_2d.render(
+        /* self.program_color_2d.render(
             &self.gl, 
             curr_state.control_bottom, 
             curr_state.control_top, 
@@ -73,6 +76,19 @@ impl MigsClient {
             curr_state.control_right - 20., 
             curr_state.canvas_height, 
             curr_state.canvas_width
+        ); */
+
+        self.program_graph_3d.render(
+            &self.gl, 
+            curr_state.control_bottom, 
+            curr_state.control_top, 
+            curr_state.control_left, 
+            curr_state.control_right, 
+            curr_state.canvas_height, 
+            curr_state.canvas_width,
+            curr_state.rotation_x_axis,
+            curr_state.rotation_y_axis,
+            &common_funcs::get_updated_3d_y_values(curr_state.time),
         );
     }
 }
